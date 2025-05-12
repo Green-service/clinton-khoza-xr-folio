@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { ExtendedReality, Menu, X } from 'lucide-react';
+import { Globe, Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NavBar = () => {
@@ -36,7 +36,7 @@ const NavBar = () => {
     >
       <div className="container mx-auto flex justify-between items-center">
         <a href="#home" className="flex items-center gap-2 group">
-          <ExtendedReality className="w-8 h-8 text-xr-vivid-purple group-hover:text-xr-primary-purple transition-colors" />
+          <Globe className="w-8 h-8 text-xr-vivid-purple group-hover:text-xr-primary-purple transition-colors" />
           <span className="font-orbitron text-xl font-bold text-gradient">CLINTON KHOZA</span>
         </a>
 

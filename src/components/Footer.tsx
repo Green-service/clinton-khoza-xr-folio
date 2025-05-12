@@ -1,5 +1,5 @@
 
-import { ExtendedReality } from 'lucide-react';
+import { Globe } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +12,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center text-center">
           <a href="#home" className="flex items-center gap-2 group mb-6">
-            <ExtendedReality className="w-8 h-8 text-xr-vivid-purple group-hover:text-xr-primary-purple transition-colors" />
+            <Globe className="w-8 h-8 text-xr-vivid-purple group-hover:text-xr-primary-purple transition-colors" />
             <span className="font-orbitron text-2xl font-bold text-gradient">CLINTON KHOZA</span>
           </a>
           

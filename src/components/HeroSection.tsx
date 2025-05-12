@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from 'react';
-import { ArrowRight, BrainCircuit, Globe, Microchip } from 'lucide-react';
+import { ArrowRight, BrainCircuit, Globe, Microchip, Headset } from 'lucide-react';
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -169,7 +169,7 @@ const HeroSection = () => {
           
           <div className="flex flex-col items-center gap-2">
             <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '0.6s' }}>
-              <ExtendedReality className="text-xr-primary-purple w-6 h-6" />
+              <Headset className="text-xr-primary-purple w-6 h-6" />
             </div>
             <span className="text-xs text-white/60 font-inter">XR Tech</span>
           </div>
