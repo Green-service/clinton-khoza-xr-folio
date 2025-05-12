@@ -9,15 +9,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 3,
+      retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 
-// Lazy load components
-const HeroSection = lazy(() => import('./components/HeroSection'));
-const AboutSection = lazy(() => import('./components/AboutSection'));
-const ProjectsSection = lazy(() => import('./components/ProjectsSection'));
-const ExperienceSection = lazy(() => import('./components/ExperienceSection'));
-const QualificationsSection = lazy(() => import('./components/QualificationsSection'));
-const ContactSection = lazy(() => import('./components/ContactSection'));
+// Lazy load components with error handling
+const HeroSection = lazy(() => import('./components/HeroSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const AboutSection = lazy(() => import('./components/AboutSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const ProjectsSection = lazy(() => import('./components/ProjectsSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const ExperienceSection = lazy(() => import('./components/ExperienceSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const QualificationsSection = lazy(() => import('./components/QualificationsSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const ContactSection = lazy(() => import('./components/ContactSection').catch(() => ({ default: () => <div>Loading...</div> })));
 
 // Loading fallback component
 const LoadingFallback = () => (

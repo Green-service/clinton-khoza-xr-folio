@@ -1,11 +1,12 @@
-export const handleAsyncError = async <T>(
+export const safeAsync = async <T>(
   promise: Promise<T>,
-  fallback: T
+  fallback: T,
+  errorMessage?: string
 ): Promise<T> => {
   try {
     return await promise;
   } catch (error) {
-    console.error('Async operation failed:', error);
+    console.error(errorMessage || 'Operation failed:', error);
     return fallback;
   }
 };
@@ -28,6 +29,7 @@ export const retryOperation = async <T>(
     }
   }
   
+  console.error('Operation failed after retries:', lastError);
   throw lastError;
 };
 
@@ -56,5 +58,14 @@ export const safeLocalStorage = {
     } catch (error) {
       console.error('LocalStorage set error:', error);
     }
+  }
+};
+
+export const ignoreErrors = <T>(fn: () => T, fallback: T): T => {
+  try {
+    return fn();
+  } catch (error) {
+    console.error('Operation failed:', error);
+    return fallback;
   }
 }; 
