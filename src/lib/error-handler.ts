@@ -13,6 +13,7 @@ export const safeAsync = async <T>(
 
 export const retryOperation = async <T>(
   operation: () => Promise<T>,
+  fallback: T,
   maxRetries: number = 3,
   delay: number = 1000
 ): Promise<T> => {
@@ -30,7 +31,7 @@ export const retryOperation = async <T>(
   }
   
   console.error('Operation failed after retries:', lastError);
-  throw lastError;
+  return fallback;
 };
 
 export const safeJsonParse = <T>(json: string, fallback: T): T => {
@@ -68,4 +69,17 @@ export const ignoreErrors = <T>(fn: () => T, fallback: T): T => {
     console.error('Operation failed:', error);
     return fallback;
   }
-}; 
+};
+
+// Add error handling to window.onerror
+if (typeof window !== 'undefined') {
+  window.onerror = (message, source, lineno, colno, error) => {
+    console.error('Global error caught:', { message, source, lineno, colno, error });
+    return true; // Prevent error from being thrown
+  };
+
+  window.onunhandledrejection = (event) => {
+    console.error('Unhandled promise rejection:', event.reason);
+    event.preventDefault();
+  };
+} 

@@ -5,10 +5,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
+import { BrowserRouter } from "react-router-dom";
 
+// Configure QueryClient with error handling
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -38,64 +37,56 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Error fallback component
-const ErrorFallback = () => (
-  <div className="min-h-screen flex items-center justify-center bg-xr-dark-charcoal">
-    <div className="text-center p-8">
-      <h1 className="text-2xl font-orbitron text-white mb-4">Component Error</h1>
-      <p className="text-white/70">This section is temporarily unavailable.</p>
-    </div>
-  </div>
-);
-
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <ErrorBoundary>
-        <div className="bg-xr-dark-charcoal min-h-screen">
-          <NavBarDemo />
-          
-          <Suspense fallback={<LoadingFallback />}>
-            <ErrorBoundary>
-              <HeroSection />
-            </ErrorBoundary>
-          </Suspense>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="bg-xr-dark-charcoal min-h-screen">
+            <NavBarDemo />
+            
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <HeroSection />
+              </ErrorBoundary>
+            </Suspense>
 
-          <Suspense fallback={<LoadingFallback />}>
-            <ErrorBoundary>
-              <AboutSection />
-            </ErrorBoundary>
-          </Suspense>
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <AboutSection />
+              </ErrorBoundary>
+            </Suspense>
 
-          <Suspense fallback={<LoadingFallback />}>
-            <ErrorBoundary>
-              <ProjectsSection />
-            </ErrorBoundary>
-          </Suspense>
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <ProjectsSection />
+              </ErrorBoundary>
+            </Suspense>
 
-          <Suspense fallback={<LoadingFallback />}>
-            <ErrorBoundary>
-              <ExperienceSection />
-            </ErrorBoundary>
-          </Suspense>
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <ExperienceSection />
+              </ErrorBoundary>
+            </Suspense>
 
-          <Suspense fallback={<LoadingFallback />}>
-            <ErrorBoundary>
-              <QualificationsSection />
-            </ErrorBoundary>
-          </Suspense>
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <QualificationsSection />
+              </ErrorBoundary>
+            </Suspense>
 
-          <Suspense fallback={<LoadingFallback />}>
-            <ErrorBoundary>
-              <ContactSection />
-            </ErrorBoundary>
-          </Suspense>
-        </div>
-      </ErrorBoundary>
-    </TooltipProvider>
-  </QueryClientProvider>
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <ContactSection />
+              </ErrorBoundary>
+            </Suspense>
+          </div>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;
