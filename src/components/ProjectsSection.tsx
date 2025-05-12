@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowUpRight, ExtendedReality, Globe, Microchip, Monitor } from 'lucide-react';
+import { ArrowUpRight, Headset, Globe, Microchip, Monitor } from 'lucide-react';
 
 type Project = {
   id: number;
@@ -80,7 +80,7 @@ const ProjectsSection = () => {
       case 'web':
         return <Globe className="w-5 h-5" />;
       case 'xr':
-        return <ExtendedReality className="w-5 h-5" />;
+        return <Headset className="w-5 h-5" />;
       case 'game':
         return <Monitor className="w-5 h-5" />;
       case 'software':
