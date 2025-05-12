@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
+import { Button } from './ui/button';
+import { toast } from 'sonner';
 import emailjs from '@emailjs/browser';
-import { Button } from '@/components/ui/button';
+import { handleAsyncError, retryOperation } from '../lib/error-handler';
 import { MapPin, Mail, Phone, Linkedin, Send } from 'lucide-react';
 import { Modal } from '@/components/ui/modal';
 
@@ -14,34 +18,35 @@ const ContactSection = () => {
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('sending');
+    setLoading(true);
 
     try {
-      await emailjs.send(
-        'service_1mact5a',
-        'template_nr0z4if',
-        {
-          to_email: 'Clintonbonganikhoza@gmail.com',
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          to_name: 'Clinton Khoza',
-          reply_to: formData.email,
-        },
-        'xC1QMlEUFiMQaCmHA'
-      );
-      
-      setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setShowModal(true);
+      await retryOperation(async () => {
+        const result = await emailjs.sendForm(
+          'service_xxxxxxx',
+          'template_xxxxxxx',
+          e.target as HTMLFormElement,
+          'YOUR_PUBLIC_KEY'
+        );
+        return result;
+      });
+
+      toast.success('Message sent successfully!');
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
     } catch (error) {
-      console.error('Error sending email:', error);
-      setStatus('error');
-      setShowModal(true);
+      toast.error('Failed to send message. Please try again.');
+      console.error('Email error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -236,11 +241,11 @@ const ContactSection = () => {
                   <div className="flex justify-end">
                     <Button
                     type="submit"
-                      disabled={status === 'sending'}
+                      disabled={loading}
                       className="bg-xr-primary-purple hover:bg-xr-primary-purple/90 px-8 group/button relative overflow-hidden"
                     >
                       <span className="relative z-10 flex items-center gap-2">
-                        {status === 'sending' ? 'Sending...' : 'Send Message'}
+                        {loading ? 'Sending...' : 'Send Message'}
                         <Send className="w-4 h-4" />
                       </span>
                       <div className="absolute inset-0 bg-gradient-to-r from-xr-primary-purple to-xr-primary-purple/50 opacity-0 group-hover/button:opacity-100 transition-opacity duration-300" />
