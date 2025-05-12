@@ -1,5 +1,5 @@
-
 import { Code, Monitor, GitBranch, Database } from 'lucide-react';
+import SkillsTimelineDemo from './SkillsTimeline';
 
 const AboutSection = () => {
   return (
@@ -15,8 +15,12 @@ const AboutSection = () => {
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-xr-primary-purple via-xr-bright-blue to-xr-vivid-purple opacity-70 blur-xl animate-pulse-slow"></div>
               <div className="relative w-full h-full rounded-xl glass-panel p-1 z-10">
                 <div className="w-full h-full bg-xr-dark-purple/50 rounded-lg flex items-center justify-center overflow-hidden">
-                  {/* Avatar with initials as placeholder (replace with actual image if available) */}
-                  <div className="text-5xl font-orbitron text-gradient">CK</div>
+                  {/* Profile image */}
+                  <img 
+                    src="/pic.jpg" 
+                    alt="Clinton Khoza" 
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 
                 {/* Decorative corner marks */}
@@ -35,43 +39,21 @@ const AboutSection = () => {
             </div>
             
             <h2 className="font-orbitron text-3xl md:text-4xl font-bold mb-6">
-              Certified <span className="text-gradient">Full-Stack Developer</span> & XR Specialist
+              Certified <span className="text-gradient">Full-Stack Developer</span> & Technology Specialist
             </h2>
             
             <div className="space-y-4 font-inter text-white/80">
               <p>
-                I'm a tech enthusiast specializing in full-stack development with Angular, ASP.NET, and Extended Reality technologies. With a background in software development, game design, and AI/ML integration, I create immersive and intelligent digital solutions.
+                I'm a versatile technology professional specializing in full-stack web development, business analysis, and data science. With expertise in React, Next.js, Node.js, Angular, and ASP.NET, I create robust and scalable digital solutions that drive business value.
               </p>
               <p>
-                My journey in information technology has equipped me with a diverse skill set spanning web development, 3D modeling, and cybersecurity. I'm passionate about combining technical expertise with creative problem-solving to build applications that push boundaries.
+                My comprehensive skill set spans web development, cybersecurity, AI/ML, and robotics. I combine technical expertise with business acumen to deliver secure, data-driven applications that solve complex problems and drive innovation.
               </p>
             </div>
             
-            {/* Key areas */}
-            <div className="grid grid-cols-2 gap-4 mt-8">
-              <div className="glass-panel p-4 rounded-lg">
-                <Code className="text-xr-ocean-blue mb-2" />
-                <h3 className="font-orbitron text-sm font-semibold">Web Development</h3>
-                <p className="text-xs text-white/60 mt-1">Angular, React, ASP.NET</p>
-              </div>
-              
-              <div className="glass-panel p-4 rounded-lg">
-                <Monitor className="text-xr-magenta mb-2" />
-                <h3 className="font-orbitron text-sm font-semibold">XR Technologies</h3>
-                <p className="text-xs text-white/60 mt-1">VR/AR Development, Unity</p>
-              </div>
-              
-              <div className="glass-panel p-4 rounded-lg">
-                <GitBranch className="text-xr-primary-purple mb-2" />
-                <h3 className="font-orbitron text-sm font-semibold">Software Dev</h3>
-                <p className="text-xs text-white/60 mt-1">C#, C++, Java, Python</p>
-              </div>
-              
-              <div className="glass-panel p-4 rounded-lg">
-                <Database className="text-xr-vivid-purple mb-2" />
-                <h3 className="font-orbitron text-sm font-semibold">Database/AI</h3>
-                <p className="text-xs text-white/60 mt-1">SQL, AI/ML Integration</p>
-              </div>
+            {/* Skills Timeline */}
+            <div className="mt-8">
+              <SkillsTimelineDemo />
             </div>
           </div>
         </div>

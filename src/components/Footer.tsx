@@ -1,4 +1,3 @@
-
 import { Globe } from 'lucide-react';
 
 const Footer = () => {
@@ -16,8 +15,9 @@ const Footer = () => {
             <span className="font-orbitron text-2xl font-bold text-gradient">CLINTON KHOZA</span>
           </a>
           
-          <p className="font-inter text-white/60 max-w-md mb-8">
-            Full-Stack Developer specializing in Angular, ASP.NET, and Extended Reality technologies. Building immersive digital experiences.
+          <p className="text-white/60 text-sm max-w-2xl mx-auto">
+            A passionate full-stack developer specializing in web development, mobile applications, and cybersecurity. 
+            Dedicated to creating secure, scalable, and user-friendly digital solutions that drive business growth and innovation.
           </p>
           
           <div className="flex gap-8 mb-8">

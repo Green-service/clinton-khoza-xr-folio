@@ -1,7 +1,8 @@
-
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { ArrowUpRight, Headset, Globe, Microchip, Monitor } from 'lucide-react';
+import { ArrowUpRight, Headset, Globe, Microchip, Monitor, RotateCw } from 'lucide-react';
+import { ThreeDPhotoCarousel } from '@/components/ui/3d-carousel';
+import { motion } from 'framer-motion';
 
 type Project = {
   id: number;
@@ -11,6 +12,7 @@ type Project = {
   image?: string;
   technologies: string[];
   link?: string;
+  longDescription: string;
 };
 
 const ProjectsSection = () => {
@@ -27,72 +29,64 @@ const ProjectsSection = () => {
   const projects: Project[] = [
     {
       id: 1,
-      title: 'VR Training Simulation',
-      description: 'An immersive VR training platform for industrial safety procedures with interactive elements.',
-      category: 'xr',
-      technologies: ['Unity', 'C#', 'VR Development', '3D Modeling'],
-      link: '#'
+      title: 'GreenFina AI',
+      description: 'An AI-powered loan management system for efficient financial operations and risk assessment.',
+      category: 'software',
+      technologies: ['React', 'Node.js', 'Python', 'AI/ML', 'MongoDB'],
+      link: 'https://greenfina.netlify.app',
+      longDescription: 'GreenFina AI is an advanced loan management system that leverages artificial intelligence to streamline financial operations. The system uses machine learning algorithms to assess loan applications, predict risk factors, and automate approval processes. Built with a modern tech stack including React for the frontend, Node.js for the backend, and MongoDB for data storage, it provides a seamless experience for both administrators and users.'
     },
     {
       id: 2,
-      title: 'E-Commerce Platform',
-      description: 'Full-stack e-commerce solution with secure payment processing and inventory management.',
-      category: 'web',
-      technologies: ['Angular', 'ASP.NET Core', 'SQL Server', 'TypeScript'],
-      link: '#'
+      title: 'Doctor Queue Management',
+      description: 'Smart ticketing system for medical facilities to manage patient queues efficiently.',
+      category: 'software',
+      technologies: ['React', 'Node.js', 'Python', 'Data Visualization'],
+      link: 'https://softelsie.co.za',
+      longDescription: 'A comprehensive queue management system designed specifically for medical facilities. The system helps doctors and staff manage patient appointments, reduce wait times, and improve overall clinic efficiency. Features include real-time queue updates, appointment scheduling, and analytics dashboard for performance monitoring.'
     },
     {
       id: 3,
-      title: 'AR Product Visualizer',
-      description: 'Augmented reality application allowing users to visualize products in their real environment.',
+      title: 'Smart Car Robot',
+      description: 'Autonomous vehicle project demonstrating advanced robotics and AI integration.',
       category: 'xr',
-      technologies: ['Unity', 'AR Foundation', 'C#', 'UI/UX Design'],
-      link: '#'
+      technologies: ['Arduino', 'C++', 'Robotics', 'AI'],
+      link: 'https://www.tiktok.com/@clintonkhoza/video/7321753193967373573',
+      longDescription: 'An innovative autonomous vehicle project that combines robotics, artificial intelligence, and sensor technology. The smart car robot can navigate complex environments, avoid obstacles, and make real-time decisions using advanced algorithms and sensor fusion techniques.'
     },
     {
       id: 4,
-      title: 'Mobile RPG Game',
-      description: 'Fantasy role-playing game with rich storyline and advanced character customization.',
-      category: 'game',
-      technologies: ['Unity', 'C#', 'Blender', 'Game Design'],
-      link: '#'
+      title: 'Smart Elevator System',
+      description: 'Intelligent elevator control system with advanced scheduling algorithms.',
+      category: 'software',
+      technologies: ['C++', 'Arduino', 'Control Systems'],
+      link: 'https://www.tiktok.com/@clintonkhoza/video/7269766276354968838',
+      longDescription: 'A sophisticated elevator control system that optimizes passenger flow and reduces wait times. The system uses advanced algorithms to predict traffic patterns and efficiently manage multiple elevator cars. Features include smart scheduling, energy optimization, and real-time monitoring capabilities.'
     },
     {
       id: 5,
-      title: 'Cybersecurity Dashboard',
-      description: 'Real-time monitoring system for network security with threat detection algorithms.',
-      category: 'software',
-      technologies: ['React', 'Node.js', 'Python', 'Data Visualization'],
-      link: '#'
+      title: 'All Things Ads',
+      description: 'Digital advertising platform connecting businesses with potential customers.',
+      category: 'web',
+      technologies: ['React', 'Node.js', 'MongoDB', 'Payment Integration'],
+      link: 'https://testfrontend-si7e.vercel.app',
+      longDescription: 'A comprehensive advertising platform that enables businesses to create, manage, and track their advertising campaigns. The platform features a commission-based revenue model, real-time analytics, and advanced targeting capabilities. Built with modern web technologies for optimal performance and user experience.'
     },
     {
       id: 6,
-      title: 'Portfolio Website',
-      description: 'Personal portfolio website showcasing projects and skills with interactive elements.',
+      title: 'Squatta App',
+      description: 'Accommodation rental platform for finding and managing property rentals.',
       category: 'web',
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Three.js'],
-      link: '#'
+      technologies: ['React', 'Node.js', 'MongoDB', 'Google Maps API'],
+      longDescription: 'A specialized platform for accommodation rentals, helping users find and manage property rentals efficiently. The app includes features for property listing, search, booking management, and user reviews. Built with a focus on user experience and reliable property management.'
     }
   ];
-  
-  const getCategoryIcon = (category: string) => {
-    switch(category) {
-      case 'web':
-        return <Globe className="w-5 h-5" />;
-      case 'xr':
-        return <Headset className="w-5 h-5" />;
-      case 'game':
-        return <Monitor className="w-5 h-5" />;
-      case 'software':
-        return <Microchip className="w-5 h-5" />;
-      default:
-        return null;
-    }
-  };
   
   const filteredProjects = activeFilter === 'all'
     ? projects
     : projects.filter(project => project.category === activeFilter);
+
+  const projectImages = filteredProjects.map(project => project.image || '/placeholder.jpg');
 
   return (
     <section id="projects" className="py-24 bg-xr-dark-charcoal relative overflow-hidden">
@@ -116,84 +110,25 @@ const ProjectsSection = () => {
           </p>
         </div>
         
-        {/* Category filter */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {filters.map((filter) => (
-            <button
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-              className={cn(
-                'px-4 py-2 rounded-full text-sm font-medium transition-all',
-                activeFilter === filter.id
-                  ? 'bg-gradient-to-r from-xr-primary-purple to-xr-vivid-purple shadow-[0_0_10px_rgba(139,92,246,0.5)]'
-                  : 'glass-panel hover:bg-white/10'
-              )}
-            >
-              {filter.label}
-            </button>
-          ))}
+        {/* Rotating indicator */}
+        <div className="flex justify-center items-center gap-3 mb-12">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="text-xr-primary-purple"
+          >
+            <RotateCw className="w-5 h-5" />
+          </motion.div>
+          <span className="text-sm text-white/70">Drag to explore more projects</span>
         </div>
         
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="glass-panel rounded-xl overflow-hidden group hover:transform hover:scale-[1.02] transition-all duration-300"
-            >
-              {/* Project image placeholder with gradient background */}
-              <div className="h-48 bg-gradient-to-br from-xr-dark-purple to-xr-secondary-purple flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-xr-vivid-purple/20 backdrop-blur-sm"></div>
-                <div className="z-10 p-3 glass-panel rounded-full">
-                  {getCategoryIcon(project.category)}
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs uppercase tracking-wider font-medium px-3 py-1 rounded-full glass-panel">
-                    {project.category === 'xr' ? 'XR' : 
-                     project.category === 'web' ? 'Web' : 
-                     project.category === 'game' ? 'Game' : 'Software'}
-                  </span>
-                </div>
-                
-                <h3 className="font-orbitron text-xl font-semibold mb-2 group-hover:text-gradient transition-all">
-                  {project.title}
-                </h3>
-                
-                <p className="font-inter text-sm text-white/70 mb-4">
-                  {project.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.slice(0, 3).map((tech, index) => (
-                    <span
-                      key={index}
-                      className="text-xs px-2 py-1 rounded bg-white/5 text-white/50"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className="text-xs px-2 py-1 rounded bg-white/5 text-white/50">
-                      +{project.technologies.length - 3} more
-                    </span>
-                  )}
-                </div>
-                
-                {project.link && (
-                  <a
-                    href={project.link}
-                    className="flex items-center gap-1 text-xr-primary-purple hover:text-xr-vivid-purple transition-colors text-sm font-medium mt-2 group"
-                  >
-                    View Project
-                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </a>
-                )}
-              </div>
+        {/* 3D Carousel */}
+        <div className="w-full max-w-4xl mx-auto">
+          <div className="min-h-[400px] flex flex-col justify-center border border-dashed rounded-lg space-y-4">
+            <div className="p-2">
+              <ThreeDPhotoCarousel projects={filteredProjects} />
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
-
 import { useEffect, useRef } from 'react';
-import { ArrowRight, BrainCircuit, Globe, Microchip, Headset } from 'lucide-react';
+import { ArrowRight, BrainCircuit, Globe, Microchip, Headset, GitBranch, Cloud, Database, Shield, BarChart2, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const HeroSection = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -126,40 +126,57 @@ const HeroSection = () => {
       <div className="absolute inset-0 -z-30 bg-grid" />
       
       {/* Hero content */}
-      <div className="container mx-auto px-4 flex flex-col items-center text-center gap-8 mt-16 z-10">
+      <div className="container mx-auto px-4 flex flex-col items-center text-center gap-8 mt-32 z-10">
         <div className="flex items-center gap-2 animate-fade-in">
           <div className="h-0.5 w-5 bg-xr-primary-purple"></div>
-          <span className="font-inter text-sm uppercase tracking-wider text-xr-primary-purple">Full-Stack XR Developer</span>
+          <span className="font-inter text-sm uppercase tracking-wider text-xr-primary-purple">Full-Stack Developer</span>
           <div className="h-0.5 w-5 bg-xr-primary-purple"></div>
         </div>
         
         <h1 className="font-orbitron text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-4xl animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          Building <span className="text-gradient glow-text">Extended Reality</span> Experiences & <span className="text-gradient glow-text">Digital Solutions</span>
+          Building <span className="text-gradient glow-text">Modern Web Applications</span> & <span className="text-gradient glow-text">Digital Solutions</span>
         </h1>
         
         <p className="font-inter text-lg text-white/70 max-w-2xl animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          Specializing in full-stack development with Angular, ASP.NET, and cutting-edge XR technologies to create immersive digital experiences.
+          Specializing in full-stack development with React, Next.js, Node.js, Angular, ASP.NET, PostgreSQL, and Microsoft SQL Server. Expert in cybersecurity, business analysis, and data science to deliver secure, data-driven, and scalable digital solutions.
         </p>
         
-        <div className="flex flex-wrap justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <a 
-            href="#projects" 
-            className="px-6 py-3 bg-gradient-to-r from-xr-primary-purple to-xr-vivid-purple rounded-lg font-medium transition-all hover:shadow-[0_0_15px_rgba(139,92,246,0.5)] flex items-center gap-2"
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <Button 
+            variant="default" 
+            size="sm"
+            className="bg-xr-primary-purple hover:bg-xr-primary-purple/90"
+            onClick={() => {
+              document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             View Projects
-            <ArrowRight size={16} />
-          </a>
-          
-          <a 
-            href="#contact" 
-            className="px-6 py-3 glass-panel hover:bg-white/10 transition-all rounded-lg font-medium"
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="border-xr-primary-purple text-xr-primary-purple hover:bg-xr-primary-purple/10"
+            onClick={() => {
+              document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
             Get in Touch
-          </a>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="border-xr-primary-purple text-xr-primary-purple hover:bg-xr-primary-purple/10"
+            onClick={() => {
+              window.open('/mycv.pdf', '_blank');
+            }}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Download CV
+          </Button>
         </div>
         
         {/* Tech icons */}
-        <div className="mt-10 flex gap-8 items-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
+        <div className="mt-10 flex flex-wrap justify-center gap-8 items-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
           <div className="flex flex-col items-center gap-2">
             <div className="p-3 glass-panel rounded-full animate-pulse-slow">
               <Globe className="text-xr-bright-blue w-6 h-6" />
@@ -175,23 +192,58 @@ const HeroSection = () => {
           </div>
           
           <div className="flex flex-col items-center gap-2">
-            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '1.2s' }}>
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '0.8s' }}>
               <Microchip className="text-xr-magenta w-6 h-6" />
             </div>
             <span className="text-xs text-white/60 font-inter">Software</span>
           </div>
           
           <div className="flex flex-col items-center gap-2">
-            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '0.9s' }}>
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '1.0s' }}>
               <BrainCircuit className="text-xr-ocean-blue w-6 h-6" />
             </div>
             <span className="text-xs text-white/60 font-inter">AI/ML</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '1.2s' }}>
+              <GitBranch className="text-xr-bright-blue w-6 h-6" />
+            </div>
+            <span className="text-xs text-white/60 font-inter">Git</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '1.4s' }}>
+              <Cloud className="text-xr-primary-purple w-6 h-6" />
+            </div>
+            <span className="text-xs text-white/60 font-inter">Cloud</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '1.6s' }}>
+              <Database className="text-xr-magenta w-6 h-6" />
+            </div>
+            <span className="text-xs text-white/60 font-inter">Database</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '1.8s' }}>
+              <Shield className="text-xr-ocean-blue w-6 h-6" />
+            </div>
+            <span className="text-xs text-white/60 font-inter">Security</span>
+          </div>
+
+          <div className="flex flex-col items-center gap-2">
+            <div className="p-3 glass-panel rounded-full animate-pulse-slow" style={{ animationDelay: '2.0s' }}>
+              <BarChart2 className="text-xr-bright-blue w-6 h-6" />
+            </div>
+            <span className="text-xs text-white/60 font-inter">Data Science</span>
           </div>
         </div>
       </div>
       
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
+      <div className="absolute bottom-20 left-0 right-0 flex justify-center animate-bounce">
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-1">
           <div className="w-1 h-1 bg-white/50 rounded-full animate-pulse"></div>
         </div>

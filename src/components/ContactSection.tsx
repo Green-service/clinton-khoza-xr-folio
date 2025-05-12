@@ -1,183 +1,254 @@
-
-import { useState, FormEvent } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
+import { Button } from '@/components/ui/button';
+import { MapPin, Mail, Phone, Linkedin, Send } from 'lucide-react';
+import { Modal } from '@/components/ui/modal';
 
 const ContactSection = () => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    message: '',
+    subject: '',
+    message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [showModal, setShowModal] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+
+    try {
+      await emailjs.send(
+        'service_1mact5a',
+        'template_nr0z4if',
+        {
+          to_email: 'Clintonbonganikhoza@gmail.com',
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_name: 'Clinton Khoza',
+          reply_to: formData.email,
+        },
+        'xC1QMlEUFiMQaCmHA'
+      );
+      
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setShowModal(true);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setStatus('error');
+      setShowModal(true);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      toast({
-        title: "Message received!",
-        description: "Thanks for reaching out. I'll get back to you soon.",
-      });
-      
-      setFormData({ name: '', email: '', message: '' });
-      setIsSubmitting(false);
-    }, 1500);
-  };
+  const contactItems = [
+    {
+      icon: MapPin,
+      label: 'Location',
+      value: 'Pretoria, Gauteng',
+      link: null
+    },
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'Clintonbonganikhoza@gmail.com',
+      link: 'mailto:Clintonbonganikhoza@gmail.com'
+    },
+    {
+      icon: Phone,
+      label: 'Phone',
+      value: '+27 64 737 5926',
+      link: 'tel:+27647375926'
+    },
+    {
+      icon: Linkedin,
+      label: 'Connect',
+      value: 'linkedin.com/in/clintonkhoza',
+      link: 'https://linkedin.com/in/clintonkhoza'
+    }
+  ];
 
   return (
     <section id="contact" className="py-24 bg-xr-dark-charcoal relative overflow-hidden">
-      {/* Grid background */}
+      {/* Modal for success/error messages */}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title={status === 'success' ? 'Success!' : 'Error'}
+        message={status === 'success' 
+          ? 'Your message has been sent successfully. I will get back to you soon!'
+          : 'Failed to send message. Please try again later.'
+        }
+        type={status === 'success' ? 'success' : 'error'}
+      />
+
+      {/* Animated background elements */}
       <div className="absolute inset-0 bg-grid opacity-30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-xr-primary-purple/10 to-transparent" />
       
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
           <div className="flex items-center justify-center gap-2 mb-2">
             <div className="h-0.5 w-5 bg-xr-primary-purple"></div>
-            <span className="font-inter text-sm uppercase tracking-wider text-xr-primary-purple">Get In Touch</span>
+            <span className="font-inter text-sm uppercase tracking-wider text-xr-primary-purple">Contact</span>
             <div className="h-0.5 w-5 bg-xr-primary-purple"></div>
           </div>
           
           <h2 className="font-orbitron text-3xl md:text-4xl font-bold">
-            Contact <span className="text-gradient">Me</span>
+            Get in <span className="text-gradient">Touch</span>
           </h2>
           
           <p className="mt-4 font-inter text-white/70 max-w-2xl mx-auto">
-            Interested in working together? Feel free to reach out for collaborations or just a friendly chat.
+            Have a project in mind or want to discuss potential opportunities? Feel free to reach out!
           </p>
-        </div>
+        </motion.div>
         
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Contact information */}
-            <div className="md:col-span-1">
-              <div className="glass-panel rounded-xl p-6 h-full">
-                <h3 className="font-orbitron font-semibold text-xl mb-4">Contact Information</h3>
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="md:col-span-1"
+            >
+              <div className="glass-panel rounded-xl p-6 h-full relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-xr-primary-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-grid opacity-10" />
                 
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-xr-primary-purple font-medium mb-1">Location</p>
-                    <p className="font-inter text-white/80">Pretoria, Gauteng</p>
-                  </div>
-                  
-                  <div>
-                    <p className="text-xr-primary-purple font-medium mb-1">Email</p>
-                    <a 
-                      href="mailto:Clintonbonganikhoza@gmail.com" 
-                      className="font-inter text-white/80 hover:text-white transition-colors"
+                <h3 className="font-orbitron font-semibold text-base mb-3 relative">
+                  <span className="text-gradient">Contact Information</span>
+                </h3>
+                
+                <div className="space-y-3 relative">
+                  {contactItems.map((item, index) => (
+                    <motion.div
+                      key={item.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start gap-2 group/item"
                     >
-                      Clintonbonganikhoza@gmail.com
-                    </a>
-                  </div>
-                  
-                  <div>
-                    <p className="text-xr-primary-purple font-medium mb-1">Phone</p>
-                    <a 
-                      href="tel:+27647375926" 
-                      className="font-inter text-white/80 hover:text-white transition-colors"
-                    >
-                      +27 64 737 5926
-                    </a>
-                  </div>
-                  
-                  <div>
-                    <p className="text-xr-primary-purple font-medium mb-1">Connect</p>
-                    <a 
-                      href="https://linkedin.com/in/clintonkhoza" 
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-inter text-white/80 hover:text-white transition-colors"
-                    >
-                      linkedin.com/in/clintonkhoza
-                    </a>
-                  </div>
+                      <div className="p-1 rounded-lg bg-xr-primary-purple/10 group-hover/item:bg-xr-primary-purple/20 transition-colors">
+                        <item.icon className="w-3.5 h-3.5 text-xr-primary-purple" />
+                      </div>
+                      <div>
+                        <p className="text-xr-primary-purple text-xs font-medium mb-0.5">{item.label}</p>
+                        {item.link ? (
+                          <a 
+                            href={item.link}
+                            target={item.label === 'Connect' ? '_blank' : undefined}
+                            rel={item.label === 'Connect' ? 'noopener noreferrer' : undefined}
+                            className="font-inter text-xs text-white/80 hover:text-white transition-colors"
+                          >
+                            {item.value}
+                          </a>
+                        ) : (
+                          <p className="font-inter text-xs text-white/80">{item.value}</p>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
             
             {/* Contact form */}
-            <div className="md:col-span-2">
-              <div className="glass-panel rounded-xl p-6">
-                <h3 className="font-orbitron font-semibold text-xl mb-6">Send Me a Message</h3>
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="md:col-span-2"
+            >
+              <div className="glass-panel rounded-xl p-6 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-xr-primary-purple/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-grid opacity-10" />
                 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-xr-primary-purple font-medium mb-1">
-                      Name
-                    </label>
+                <h3 className="font-orbitron font-semibold text-xl mb-6 relative">
+                  <span className="text-gradient">Send Me a Message</span>
+                </h3>
+                
+                <form onSubmit={handleSubmit} className="space-y-4 relative">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="group/input">
                     <input
                       type="text"
-                      id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-colors"
-                      placeholder="Your name"
-                    />
+                        placeholder="Your Name"
+                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-all duration-300 text-white placeholder:text-white/50 group-hover/input:bg-white/10"
+                      />
+                    </div>
+                    <div className="group/input">
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="Your Email"
+                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-all duration-300 text-white placeholder:text-white/50 group-hover/input:bg-white/10"
+                      />
+                    </div>
                   </div>
                   
-                  <div>
-                    <label htmlFor="email" className="block text-xr-primary-purple font-medium mb-1">
-                      Email
-                    </label>
+                  <div className="group/input">
                     <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-colors"
-                      placeholder="Your email"
+                      placeholder="Subject"
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-all duration-300 text-white placeholder:text-white/50 group-hover/input:bg-white/10"
                     />
                   </div>
                   
-                  <div>
-                    <label htmlFor="message" className="block text-xr-primary-purple font-medium mb-1">
-                      Message
-                    </label>
+                  <div className="group/input">
                     <textarea
-                      id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      placeholder="Your Message"
                       rows={5}
-                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-colors resize-none"
-                      placeholder="Your message"
+                      className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-xr-primary-purple focus:outline-none transition-all duration-300 text-white placeholder:text-white/50 resize-none group-hover/input:bg-white/10"
                     ></textarea>
                   </div>
                   
-                  <button
+                  <div className="flex justify-end">
+                    <Button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`px-6 py-3 bg-gradient-to-r from-xr-primary-purple to-xr-vivid-purple rounded-lg font-medium transition-all hover:shadow-[0_0_15px_rgba(139,92,246,0.5)] w-full flex items-center justify-center ${
-                      isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Processing...
+                      disabled={status === 'sending'}
+                      className="bg-xr-primary-purple hover:bg-xr-primary-purple/90 px-8 group/button relative overflow-hidden"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        {status === 'sending' ? 'Sending...' : 'Send Message'}
+                        <Send className="w-4 h-4" />
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-xr-primary-purple to-xr-primary-purple/50 opacity-0 group-hover/button:opacity-100 transition-opacity duration-300" />
+                    </Button>
                       </div>
-                    ) : (
-                      'Send Message'
-                    )}
-                  </button>
                 </form>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
