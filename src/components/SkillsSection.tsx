@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { RadialOrbitalTimelineDemo } from './ui/radial-orbital-timeline-demo';
 
 type Skill = {
   name: string;
   percentage: number;
-  category: 'web' | 'xr' | 'languages' | 'other';
+  category: 'web' | 'data' | 'languages' | 'other';
 };
 
 const skills: Skill[] = [
-  // Web Development
+    // Web Development
   { name: 'Angular', percentage: 90, category: 'web' },
   { name: 'React', percentage: 85, category: 'web' },
   { name: 'ASP.NET Core', percentage: 80, category: 'web' },
@@ -16,25 +17,25 @@ const skills: Skill[] = [
   { name: 'TypeScript', percentage: 85, category: 'web' },
   { name: 'JavaScript', percentage: 90, category: 'web' },
   
-  // XR Technologies
-  { name: 'Unity', percentage: 85, category: 'xr' },
-  { name: 'VR Development', percentage: 80, category: 'xr' },
-  { name: 'AR Development', percentage: 75, category: 'xr' },
-  { name: 'Blender', percentage: 70, category: 'xr' },
-  { name: 'XR Integration', percentage: 80, category: 'xr' },
+  // Data Science & Business Analysis
+  { name: 'Data Analysis', percentage: 85, category: 'data' },
+  { name: 'Machine Learning', percentage: 80, category: 'data' },
+  { name: 'Business Intelligence', percentage: 85, category: 'data' },
+  { name: 'Data Visualization', percentage: 90, category: 'data' },
+  { name: 'Statistical Analysis', percentage: 85, category: 'data' },
   
   // Languages
   { name: 'C#', percentage: 90, category: 'languages' },
-  { name: 'C++', percentage: 80, category: 'languages' },
+  { name: 'Python', percentage: 85, category: 'languages' },
+  { name: 'SQL', percentage: 90, category: 'languages' },
+  { name: 'R', percentage: 80, category: 'languages' },
   { name: 'Java', percentage: 85, category: 'languages' },
-  { name: 'Python', percentage: 75, category: 'languages' },
-  { name: 'SQL', percentage: 85, category: 'languages' },
-  
-  // Other
-  { name: 'AI/ML', percentage: 70, category: 'other' },
-  { name: 'Cybersecurity', percentage: 75, category: 'other' },
-  { name: 'Robotics', percentage: 65, category: 'other' },
-  { name: 'PLC Programming', percentage: 60, category: 'other' },
+    
+    // Other
+  { name: 'Business Analysis', percentage: 85, category: 'other' },
+  { name: 'Project Management', percentage: 80, category: 'other' },
+  { name: 'Agile Methodologies', percentage: 85, category: 'other' },
+  { name: 'Requirements Gathering', percentage: 90, category: 'other' },
 ];
 
 const container = {
@@ -74,51 +75,33 @@ const SkillsSection = () => {
             A comprehensive overview of my technical skills and proficiency levels across various domains.
           </p>
         </div>
-
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
+        
+        <div className="h-[600px] mb-16">
+          <RadialOrbitalTimelineDemo />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {skills.map((skill, index) => (
             <motion.div
               key={skill.name}
               variants={item}
-              className="bg-xr-dark-purple rounded-xl p-4 border border-xr-primary-purple/20"
+              className="relative group"
             >
-              <div className="flex justify-between items-center mb-2">
-                <h3 className="font-orbitron text-lg font-semibold">{skill.name}</h3>
-                <span className="text-xr-primary-purple font-medium">{skill.percentage}%</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-white/90">{skill.name}</span>
+                <span className="text-xs font-mono text-white/50">{skill.percentage}%</span>
               </div>
-              
-              <div className="w-full h-2 bg-xr-dark-charcoal rounded-full overflow-hidden">
+              <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                 <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: `${skill.percentage}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, ease: "easeOut" }}
                   className="h-full bg-gradient-to-r from-xr-primary-purple to-xr-vivid-purple"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${skill.percentage}%` }}
+                  transition={{ duration: 1, delay: index * 0.1 }}
                 />
-              </div>
-              
-              <div className="mt-2">
-                <span className={cn(
-                  "text-xs px-2 py-1 rounded-full",
-                  skill.category === 'web' && "bg-blue-500/10 text-blue-400",
-                  skill.category === 'xr' && "bg-purple-500/10 text-purple-400",
-                  skill.category === 'languages' && "bg-green-500/10 text-green-400",
-                  skill.category === 'other' && "bg-orange-500/10 text-orange-400"
-                )}>
-                  {skill.category === 'web' ? 'Web Development' :
-                   skill.category === 'xr' ? 'XR Technologies' :
-                   skill.category === 'languages' ? 'Programming Languages' : 'Other'}
-                </span>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

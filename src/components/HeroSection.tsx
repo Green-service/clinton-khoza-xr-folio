@@ -1,8 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, BrainCircuit, Globe, Microchip, Headset, GitBranch, Cloud, Database, Shield, BarChart2, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import CV from './CV';
 
 const HeroSection = () => {
+  const [showCV, setShowCV] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
   useEffect(() => {
@@ -166,12 +168,10 @@ const HeroSection = () => {
             variant="outline" 
             size="sm"
             className="border-xr-primary-purple text-xr-primary-purple hover:bg-xr-primary-purple/10"
-            onClick={() => {
-              window.open('/mycv.pdf', '_blank');
-            }}
+            onClick={() => setShowCV(true)}
           >
             <Download className="w-4 h-4 mr-2" />
-            Download CV
+            View CV Details
           </Button>
         </div>
         
@@ -248,6 +248,8 @@ const HeroSection = () => {
           <div className="w-1 h-1 bg-white/50 rounded-full animate-pulse"></div>
         </div>
       </div>
+
+      {showCV && <CV onClose={() => setShowCV(false)} />}
     </section>
   );
 };

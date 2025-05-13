@@ -22,10 +22,12 @@ const queryClient = new QueryClient({
 // Lazy load components with error handling
 const HeroSection = lazy(() => import('./components/HeroSection').catch(() => ({ default: () => <div>Loading...</div> })));
 const AboutSection = lazy(() => import('./components/AboutSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const SkillsSection = lazy(() => import('./components/SkillsSection').catch(() => ({ default: () => <div>Loading...</div> })));
 const ProjectsSection = lazy(() => import('./components/ProjectsSection').catch(() => ({ default: () => <div>Loading...</div> })));
 const ExperienceSection = lazy(() => import('./components/ExperienceSection').catch(() => ({ default: () => <div>Loading...</div> })));
 const QualificationsSection = lazy(() => import('./components/QualificationsSection').catch(() => ({ default: () => <div>Loading...</div> })));
 const ContactSection = lazy(() => import('./components/ContactSection').catch(() => ({ default: () => <div>Loading...</div> })));
+const Footer = lazy(() => import('./components/Footer').catch(() => ({ default: () => <div>Loading...</div> })));
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -39,11 +41,11 @@ const LoadingFallback = () => (
 
 const App = () => (
   <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
           <div className="bg-xr-dark-charcoal min-h-screen">
             <NavBarDemo />
             
@@ -56,6 +58,12 @@ const App = () => (
             <Suspense fallback={<LoadingFallback />}>
               <ErrorBoundary>
                 <AboutSection />
+              </ErrorBoundary>
+            </Suspense>
+
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <SkillsSection />
               </ErrorBoundary>
             </Suspense>
 
@@ -82,10 +90,16 @@ const App = () => (
                 <ContactSection />
               </ErrorBoundary>
             </Suspense>
+
+            <Suspense fallback={<LoadingFallback />}>
+              <ErrorBoundary>
+                <Footer />
+              </ErrorBoundary>
+            </Suspense>
           </div>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
   </ErrorBoundary>
 );
 

@@ -112,7 +112,7 @@ export default function RadialOrbitalTimeline({
 
   const calculateNodePosition = (index: number, total: number) => {
     const angle = ((index / total) * 360 + rotationAngle) % 360;
-    const radius = 150;
+    const radius = 200;
     const radian = (angle * Math.PI) / 180;
 
     const x = radius * Math.cos(radian) + centerOffset.x;
@@ -153,7 +153,7 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-full flex flex-col items-center justify-center bg-transparent overflow-hidden"
+      className="w-full h-screen flex flex-col items-center justify-center bg-transparent overflow-hidden"
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -166,20 +166,22 @@ export default function RadialOrbitalTimeline({
             transform: `translate(${centerOffset.x}px, ${centerOffset.y}px)`,
           }}
         >
-          <div className="absolute w-12 h-12 rounded-full overflow-hidden border-2 border-white/30 shadow-lg shadow-white/20 z-10">
-            <div className="absolute w-16 h-16 rounded-full border border-white/20 animate-ping opacity-70"></div>
+          <div className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-xr-primary-purple via-xr-bright-blue to-xr-vivid-purple animate-pulse flex items-center justify-center z-10">
+            <div className="absolute w-20 h-20 rounded-full border border-white/20 animate-ping opacity-70"></div>
             <div
-              className="absolute w-20 h-20 rounded-full border border-white/10 animate-ping opacity-50"
+              className="absolute w-24 h-24 rounded-full border border-white/10 animate-ping opacity-50"
               style={{ animationDelay: "0.5s" }}
             ></div>
-            <img 
-              src="/pic.jpg" 
-              alt="Profile" 
-              className="w-full h-full object-cover"
-            />
+            <div className="w-8 h-8 rounded-full overflow-hidden">
+              <img
+                src="/pic.jpg"
+                alt="Clinton Khoza"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
 
-          <div className="absolute w-72 h-72 rounded-full border border-white/10"></div>
+          <div className="absolute w-96 h-96 rounded-full border border-white/10"></div>
 
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -210,7 +212,7 @@ export default function RadialOrbitalTimeline({
                     isPulsing ? "animate-pulse duration-1000" : ""
                   }`}
                   style={{
-                    background: `radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)`,
+                    background: `radial-gradient(circle, rgba(139, 92, 246, 0.2) 0%, rgba(139, 92, 246, 0) 70%)`,
                     width: `${item.energy * 0.5 + 40}px`,
                     height: `${item.energy * 0.5 + 40}px`,
                     left: `-${(item.energy * 0.5 + 40 - 40) / 2}px`,
@@ -220,32 +222,32 @@ export default function RadialOrbitalTimeline({
 
                 <div
                   className={`
-                  w-8 h-8 rounded-full flex items-center justify-center
+                  w-10 h-10 rounded-full flex items-center justify-center
                   ${
                     isExpanded
                       ? "bg-white text-black"
                       : isRelated
                       ? "bg-white/50 text-black"
-                      : "bg-black text-white"
+                      : "bg-xr-dark-purple text-white"
                   }
                   border-2 
                   ${
                     isExpanded
-                      ? "border-white shadow-lg shadow-white/30"
+                      ? "border-xr-primary-purple shadow-lg shadow-xr-primary-purple/30"
                       : isRelated
-                      ? "border-white animate-pulse"
-                      : "border-white/40"
+                      ? "border-xr-primary-purple animate-pulse"
+                      : "border-xr-primary-purple/40"
                   }
                   transition-all duration-300 transform
                   ${isExpanded ? "scale-150" : ""}
                 `}
                 >
-                  <Icon size={14} />
+                  <Icon size={16} />
                 </div>
 
                 <div
                   className={`
-                  absolute top-10 whitespace-nowrap
+                  absolute top-12 whitespace-nowrap
                   text-xs font-semibold tracking-wider
                   transition-all duration-300
                   ${isExpanded ? "text-white scale-125" : "text-white/70"}
@@ -255,8 +257,8 @@ export default function RadialOrbitalTimeline({
                 </div>
 
                 {isExpanded && (
-                  <Card className="absolute top-16 left-1/2 -translate-x-1/2 w-56 bg-black/90 backdrop-blur-lg border-white/30 shadow-xl shadow-white/10 overflow-visible">
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-white/50"></div>
+                  <Card className="absolute top-20 left-1/2 -translate-x-1/2 w-64 bg-xr-dark-purple/90 backdrop-blur-lg border-xr-primary-purple/30 shadow-xl shadow-xr-primary-purple/10 overflow-visible">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-xr-primary-purple/50"></div>
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-center">
                         <Badge
@@ -265,10 +267,10 @@ export default function RadialOrbitalTimeline({
                           )}`}
                         >
                           {item.status === "completed"
-                            ? "COMPLETE"
+                            ? "EXPERT"
                             : item.status === "in-progress"
-                            ? "IN PROGRESS"
-                            : "PENDING"}
+                            ? "ADVANCED"
+                            : "INTERMEDIATE"}
                         </Badge>
                         <span className="text-xs font-mono text-white/50">
                           {item.date}
@@ -285,13 +287,13 @@ export default function RadialOrbitalTimeline({
                         <div className="flex justify-between items-center text-xs mb-1">
                           <span className="flex items-center">
                             <Zap size={10} className="mr-1" />
-                            Energy Level
+                            Proficiency
                           </span>
                           <span className="font-mono">{item.energy}%</span>
                         </div>
                         <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-blue-500 to-purple-500"
+                            className="h-full bg-gradient-to-r from-xr-primary-purple to-xr-vivid-purple"
                             style={{ width: `${item.energy}%` }}
                           ></div>
                         </div>
@@ -302,7 +304,7 @@ export default function RadialOrbitalTimeline({
                           <div className="flex items-center mb-2">
                             <Link size={10} className="text-white/70 mr-1" />
                             <h4 className="text-xs uppercase tracking-wider font-medium text-white/70">
-                              Connected Skills
+                              Related Skills
                             </h4>
                           </div>
                           <div className="flex flex-wrap gap-1">
@@ -315,7 +317,7 @@ export default function RadialOrbitalTimeline({
                                   key={relatedId}
                                   variant="outline"
                                   size="sm"
-                                  className="flex items-center h-6 px-2 py-0 text-xs rounded-none border-white/20 bg-transparent hover:bg-white/10 text-white/80 hover:text-white transition-all"
+                                  className="flex items-center h-6 px-2 py-0 text-xs rounded-none border-xr-primary-purple/20 bg-transparent hover:bg-xr-primary-purple/10 text-white/80 hover:text-white transition-all"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     toggleItem(relatedId);
